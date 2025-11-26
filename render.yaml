@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: demo-django
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    env: docker
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: django_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
+    healthCheckPath: /admin/
+
+databases:
+  - name: django_db
+    databaseName: django_db
+    user: django_user
+    plan: free
