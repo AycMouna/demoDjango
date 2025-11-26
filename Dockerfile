@@ -20,11 +20,14 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy project
 COPY . /app/
 
+# Make start script executable
+RUN chmod +x start.sh
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
 # Expose port
 EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "demoDjango.wsgi:application"]
+# Run startup script (migrations + gunicorn)
+CMD ["./start.sh"]
