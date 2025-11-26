@@ -19,16 +19,12 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: |
-          cd demoDjango
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run Django tests
         env:
           DJANGO_SETTINGS_MODULE: demoDjango.test_settings
-        run: |
-          cd demoDjango
-          python manage.py test
+        run: python manage.py test
 
   deploy:
     needs: test
