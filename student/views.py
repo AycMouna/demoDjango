@@ -15,16 +15,19 @@ class StudentView(View):
         return JsonResponse({'students': students})
     
     def post(self, request):
-        data = json.loads(request.body)
-        student = Student.objects.create(
-            name=data['name'],
-            address=data['address']
-        )
-        return JsonResponse({
-            'id': student.id,
-            'name': student.name,
-            'address': student.address
-        })
+        try:
+            data = json.loads(request.body)
+            student = Student.objects.create(
+                name=data.get('name'),
+                address=data.get('address')
+            )
+            return JsonResponse({
+                'id': student.id,
+                'name': student.name,
+                'address': student.address
+            })
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
 
 def student_list(request):
     if request.method == 'GET':
